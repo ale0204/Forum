@@ -39,14 +39,14 @@ namespace Forum.Presentation.Api
                     aspNetCoreOpenApiDocumentGeneratorSettings.Version = "v1";
                 };
                 documentOptions.RemoveEmptyRequestSchema = true;
-                documentOptions.ShortSchemaNames = true;
+                documentOptions.ShortSchemaName = true;
             });
             //builder.Services.AddAuthentication();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); 
 
             //app.UseAuthentication();
 

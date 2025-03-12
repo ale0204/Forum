@@ -17,5 +17,9 @@
     <Folder Include="Common\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
+  </ItemGroup>
+
 
 </Project>
