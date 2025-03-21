@@ -3,9 +3,12 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Forum.Presentation.Api.Common.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Forum.Application.Common.DependencyInjection;
+
 
 namespace Forum.Presentation.Api
 {
@@ -15,32 +18,8 @@ namespace Forum.Presentation.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddAuthorization();
-
-            builder.Services.AddFastEndpoints(endpointDiscoveryOptions => endpointDiscoveryOptions.Assemblies = [typeof(Program).Assembly]);
-
-            builder.Services.AddOpenApi();
-
-            builder.Services.SwaggerDocument(documentOptions =>
-            {
-                documentOptions.EnableJWTBearerAuth = true;
-                documentOptions.SerializerSettings = jsonSerializerOptions =>
-                {
-                    jsonSerializerOptions.PropertyNamingPolicy = null;
-                    jsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                };
-                documentOptions.MaxEndpointVersion = 1;
-                documentOptions.MinEndpointVersion = 1;
-                documentOptions.DocumentSettings = aspNetCoreOpenApiDocumentGeneratorSettings =>
-                {
-                    aspNetCoreOpenApiDocumentGeneratorSettings.DocumentName = "v1";
-                    aspNetCoreOpenApiDocumentGeneratorSettings.Title = "Forum API v1";
-                    aspNetCoreOpenApiDocumentGeneratorSettings.Version = "v1";
-                };
-                documentOptions.RemoveEmptyRequestSchema = true;
-                documentOptions.ShortSchemaName = true;
-            });
+            builder.Services.AddPresentationApiLayerServices(builder.Configuration);
+            builder.Services.AddApplicationLayerServices();
             //builder.Services.AddAuthentication();
             var app = builder.Build();
 
