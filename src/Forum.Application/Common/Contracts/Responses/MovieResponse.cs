@@ -18,6 +18,7 @@ namespace Forum.Application.Common.Contracts.Responses;
 public record MovieResponse(
     Guid Id,
     string Title,
+    string? Description,
     int? Duration,
     float? Score,
     string? PosterUrl,

@@ -10,11 +10,16 @@
     <PackageReference Include="FastEndpoints" Version="5.35.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.35.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.29" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
+    <ProjectReference Include="..\Forum.DataAccess\Forum.DataAccess.csproj" />
   </ItemGroup>
 
 

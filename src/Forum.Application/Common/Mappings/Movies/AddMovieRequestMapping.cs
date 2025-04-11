@@ -14,6 +14,7 @@ public static class AddMovieRequestMapping
     {
         return new AddMovieCommand(
             request.Title,
+            request.Description,
             request.Duration,
             request.Score,
             request.PosterUrl,

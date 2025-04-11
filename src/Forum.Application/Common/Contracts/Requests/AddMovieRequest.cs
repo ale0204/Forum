@@ -16,6 +16,7 @@ namespace Forum.Application.Common.Contracts.Requests;
 /// <param name="LaunchDate">The optional date when the movie was launched.</param>
 public record AddMovieRequest(
     string Title, 
+    string? Description,
     int? Duration,
     float? Score,
     string? PosterUrl,

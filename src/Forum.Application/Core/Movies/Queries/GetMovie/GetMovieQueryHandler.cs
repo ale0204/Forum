@@ -12,26 +12,21 @@ using Forum.Application.Common.DataAccess.UoW;
 using Forum.Application.Common.Mappings.Movies;
 using Mediator;
 
-namespace Forum.Application.Core.Movies.Commands.AddMovie;
+namespace Forum.Application.Core.Movies.Queries.GetMovie;
 
-public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand, ErrorOr<MovieResponse>>
+public class GetMovieQueryHandler : IRequestHandler<GetMovieQuery, ErrorOr<MovieResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public AddMovieCommandHandler(IUnitOfWork unitOfWork)
+    public GetMovieQueryHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
-    public async ValueTask<ErrorOr<MovieResponse>> Handle(AddMovieCommand request, CancellationToken cancellationToken)
+    public async ValueTask<ErrorOr<MovieResponse>> Handle(GetMovieQuery request, CancellationToken cancellationToken)
     {
         IMovieRepository movieRepository = _unitOfWork.GetRepository<IMovieRepository>();
 
-        MovieEntity repositoryEntity = request.ToRepositoryEntity();
-
-        await movieRepository.InsertAsync(repositoryEntity, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        ErrorOr<MovieEntity?> repositoryMovieResult = await movieRepository.GetByIdAsync(repositoryEntity.Id, cancellationToken);
+        ErrorOr<MovieEntity?> repositoryMovieResult = await movieRepository.GetByIdAsync(request.Id, cancellationToken);
         if (repositoryMovieResult.IsError)
             return repositoryMovieResult.Errors;
         return repositoryMovieResult.Value!.ToResponse();

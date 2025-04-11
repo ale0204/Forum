@@ -7,13 +7,9 @@ using ErrorOr;
 using Forum.Application.Common.Contracts.Responses;
 using Mediator;
 
-namespace Forum.Application.Core.Movies.Commands.AddMovie;
+namespace Forum.Application.Core.Movies.Queries.GetMovie;
 
-public record AddMovieCommand(
-    string Title,
-    string? Description,
-    int? Duration,
-    float? Score,
-    string? PosterUrl,
-    DateOnly? LaunchDate
+public record GetMovieQuery(
+    Guid Id
 ) : IRequest<ErrorOr<MovieResponse>>;
+
