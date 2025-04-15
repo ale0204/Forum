@@ -22,6 +22,20 @@ internal class MovieRepository : IMovieRepository
         _context = context;
     }
 
+    public async Task<ErrorOr<Deleted>> DeleteByIdAsync(Guid id, CancellationToken token)
+    {
+        MovieEntity? movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id, token);
+        if (movie is null)
+            return Errors.Movies.MovieDoesNotExist;
+        _context.Movies.Remove(movie);
+        return Result.Deleted;
+    }
+
+    public async Task<List<MovieEntity>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Movies.ToListAsync(cancellationToken);
+    }
+
     public async Task<ErrorOr<MovieEntity?>> GetByIdAsync(Guid id, CancellationToken token)
     {
         return await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id, token);

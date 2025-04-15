@@ -11,5 +11,6 @@ public static partial class Errors
     public static class Movies
     {
         public static Error MovieAlreadyExists => Error.Conflict(description: "Movie already exists!");
+        public static Error MovieDoesNotExist => Error.NotFound(description: "Movie does not exist!");
     }
 }

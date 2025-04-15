@@ -12,23 +12,25 @@ using Forum.Application.Common.DataAccess.UoW;
 using Forum.Application.Common.Mappings.Movies;
 using Mediator;
 
-namespace Forum.Application.Core.Movies.Queries.GetMovie;
+namespace Forum.Application.Core.Movies.Queries.GetAllMovies;
 
-public class GetMovieQueryHandler : IRequestHandler<GetMovieQuery, ErrorOr<MovieResponse?>>
+public class GetAllMoviesQueryHandler : IRequestHandler<GetAllMoviesQuery, ErrorOr<List<MovieResponse>>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetMovieQueryHandler(IUnitOfWork unitOfWork)
+    public GetAllMoviesQueryHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
-    public async ValueTask<ErrorOr<MovieResponse?>> Handle(GetMovieQuery request, CancellationToken cancellationToken)
+
+    public async ValueTask<ErrorOr<List<MovieResponse>>> Handle(GetAllMoviesQuery request, CancellationToken cancellationToken)
     {
         IMovieRepository movieRepository = _unitOfWork.GetRepository<IMovieRepository>();
 
-        ErrorOr<MovieEntity?> repositoryMovieResult = await movieRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (repositoryMovieResult.IsError)
-            return repositoryMovieResult.Errors;
-        return repositoryMovieResult.Value?.ToResponse();
+        ErrorOr<List<MovieEntity>> repositoryMoviesResult = await movieRepository.GetAllAsync(cancellationToken);
+
+        if(repositoryMoviesResult.IsError) 
+            return repositoryMoviesResult.Errors;
+        return repositoryMoviesResult.Value.ToResponses();
     }
 }

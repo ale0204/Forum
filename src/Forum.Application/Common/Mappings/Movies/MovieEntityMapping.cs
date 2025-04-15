@@ -22,4 +22,9 @@ public static class MovieEntityMapping
             entity.LaunchDate
         );
     }
+
+    public static List<MovieResponse> ToResponses(this List<MovieEntity> entities)
+    {
+        return entities.ConvertAll(entity => ToResponse(entity));
+    }
 }

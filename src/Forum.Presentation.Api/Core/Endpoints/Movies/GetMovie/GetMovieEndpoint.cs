@@ -30,7 +30,7 @@ public class GetMovieEndpoint : Endpoint<GetMovieRequest, IResult>
     }
     public override async Task<IResult> ExecuteAsync(GetMovieRequest req, CancellationToken ct)
     {
-        ErrorOr<MovieResponse> result = await _sender.Send(req.ToQuery(), ct);
+        ErrorOr<MovieResponse?> result = await _sender.Send(req.ToQuery(), ct);
         return result.Match(succes => TypedResults.Ok(succes), error => Results.BadRequest(error[0]));
     }
 }

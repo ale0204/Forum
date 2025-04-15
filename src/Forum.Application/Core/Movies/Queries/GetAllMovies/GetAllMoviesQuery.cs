@@ -7,9 +7,6 @@ using ErrorOr;
 using Forum.Application.Common.Contracts.Responses;
 using Mediator;
 
-namespace Forum.Application.Core.Movies.Queries.GetMovie;
+namespace Forum.Application.Core.Movies.Queries.GetAllMovies;
 
-public record GetMovieQuery(
-    Guid Id
-) : IRequest<ErrorOr<MovieResponse?>>;
-
+public record GetAllMoviesQuery() : IRequest<ErrorOr<List<MovieResponse>>>;

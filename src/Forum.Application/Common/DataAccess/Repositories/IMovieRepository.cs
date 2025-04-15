@@ -11,6 +11,8 @@ namespace Forum.Application.Common.DataAccess.Repositories;
 
 public interface IMovieRepository : IRepository<MovieEntity>, 
                                     IGetByIdRepositoryAction<MovieEntity>,
-                                    IInsertRepositoryAction<MovieEntity>
+                                    IInsertRepositoryAction<MovieEntity>,
+                                    IGetAllRepositoryAction<MovieEntity>,
+                                    IDeleteByIdRepositoryAction
 {
 }
