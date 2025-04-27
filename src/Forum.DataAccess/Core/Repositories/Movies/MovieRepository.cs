@@ -24,7 +24,7 @@ internal class MovieRepository : IMovieRepository
 
     public async Task<ErrorOr<Deleted>> DeleteByIdAsync(Guid id, CancellationToken token)
     {
-        MovieEntity? movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id, token);
+        MovieEntity? movie = await _context.Movies.SingleOrDefaultAsync(movie => movie.Id == id, token);
         if (movie is null)
             return Errors.Movies.MovieDoesNotExist;
         _context.Movies.Remove(movie);
@@ -38,7 +38,10 @@ internal class MovieRepository : IMovieRepository
 
     public async Task<ErrorOr<MovieEntity?>> GetByIdAsync(Guid id, CancellationToken token)
     {
-        return await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == id, token);
+        MovieEntity? movie = await _context.Movies.SingleOrDefaultAsync(movie => movie.Id == id, token);
+        if(movie is null)
+            return Errors.Movies.MovieDoesNotExist;
+        return movie;
     }
 
     public async Task<ErrorOr<Created>> InsertAsync(MovieEntity entity, CancellationToken token)
@@ -48,5 +51,14 @@ internal class MovieRepository : IMovieRepository
             return Errors.Movies.MovieAlreadyExists;
         _context.Movies.Add(entity);
         return Result.Created;
+    }
+
+    public async Task<ErrorOr<Updated>> UpdateAsync(MovieEntity entity, CancellationToken token)
+    {
+        MovieEntity? movie = await _context.Movies.SingleOrDefaultAsync(movie => movie.Id == entity.Id, token);
+        if (movie is null)
+            return Errors.Movies.MovieDoesNotExist;
+        _context.Entry(movie).CurrentValues.SetValues(entity);
+        return Result.Updated;
     }
 }

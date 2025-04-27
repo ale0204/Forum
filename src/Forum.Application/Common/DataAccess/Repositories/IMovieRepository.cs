@@ -13,6 +13,7 @@ public interface IMovieRepository : IRepository<MovieEntity>,
                                     IGetByIdRepositoryAction<MovieEntity>,
                                     IInsertRepositoryAction<MovieEntity>,
                                     IGetAllRepositoryAction<MovieEntity>,
-                                    IDeleteByIdRepositoryAction
+                                    IDeleteByIdRepositoryAction,
+                                    IUpdateRepositoryAction<MovieEntity>
 {
 }
