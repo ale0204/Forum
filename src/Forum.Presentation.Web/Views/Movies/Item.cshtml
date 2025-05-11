@@ -1,0 +1,131 @@
+﻿@using Forum.Presentation.Web.Common.Models
+@model MovieModel
+@* @{ *@
+@* 	var ceva = ViewBag.gdfgd; *@
+@* 	MovieModel altceva = ViewData["whatever"] as MovieModel; *@
+@* 	int a = 2; *@
+@* } *@
+<form method="post" id="add-movie-form">
+	<input type="hidden" asp-for="Id" />
+	<div>
+		<label asp-for="Title">Title</label>
+		<span class="mandatory-field">*</span>
+		<input asp-for="Title" />
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The title of the movie</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="Description">Description</label>
+		<textarea asp-for="Description" ></textarea>
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The description of the movie</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="Duration">Duration</label>
+		<input type="number" asp-for="Duration" />
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The duration in minutes</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="Score">Score</label>
+		<input type="number" asp-for="Score" />
+	</div>
+	<div>
+		<small style="margin-left: 10px;">The score of the movie</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="LaunchDate">Launch Date</label>
+		<input type="date" asp-for="LaunchDate" />
+	</div>
+	<div>
+		<small style="margin-left: 10px;">The launch date of the movie</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="PosterUrl">Poster Url</label>
+		<input type="url" asp-for="PosterUrl" />
+	</div>
+	<div>
+		<small style="margin-left: 10px;">The poster of the movie</small>
+	</div>
+
+	<div>
+		<button type="reset">Clear</button>
+		<button type="submit" asp-controller="Movies" asp-action="UpdateMovie">Submit</button>
+	</div>
+
+	
+</form>
+@if(Model is not null)
+{
+
+}
+else
+{
+
+}
+
+@section Scripts
+{
+	<script type="text/javascript">
+		const form = document.getElementById('add-movie-form');
+		const query = form.querySelector('[name="Title"]');
+		async function handleAddMovie() {
+			const formData = {
+				Id: form.querySelector('[name="Id"]').value || null,
+				Title: form.querySelector('[name="Title"]').value || null,
+				Description: form.querySelector('[name="Description"]').value || null,
+				Duration: form.querySelector('[name="Duration"]').value || null,
+				Score: form.querySelector('[name="Score"]').value || null,
+				LaunchDate: form.querySelector('[name="LaunchDate"]').value || null,
+				PosterUrl: form.querySelector('[name="PosterUrl"]').value || null
+			};
+			const response = await fetch(form.action, {
+				method: form.method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+			if(!response.ok)
+			{
+				createNotification('Error ' + (formData.Id === null? 'adding' : 'updating') + ' movie!', 'error');
+				console.error('Error', error);
+			}
+			else
+			{
+				const responseData = await response.json();
+				if(responseData.success === true)
+					createNotification('Movie ' + (formData.Id === null? 'added' : 'updated'));
+				else
+				{
+					const nestedData = JSON.parse(responseData.data);
+					createNotification('Error ' + (formData.Id === null? 'adding' : 'updating') + ' movie! ' + nestedData.description, 'error');
+
+				}
+
+				console.log('Success', data);
+			}
+		}
+		const handleEnterKey = async function(e) {
+			if(e.key === 'Enter')
+			{
+				e.preventDefault();
+				await handleAddMovie();
+			}
+		};
+		const handleSubmit = async function(e) {
+			e.preventDefault();
+			await handleAddMovie();
+		};
+		form.addEventListener('keypress', handleEnterKey);
+		form.addEventListener('submit', handleSubmit);
+	</script>
+}

@@ -1,0 +1,78 @@
+﻿@using Forum.Presentation.Web.Common.Models
+<p>
+	<a href="/movies/item/">Add movie</a>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Duration</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model is not null && (Model as MovieModel[])?.Length > 0)
+			{
+				foreach (MovieModel item in Model)
+				{
+					<tr>
+						<td> @item.Id</td>
+						<td> @item.Title </td>
+						<td> @item.Duration </td>
+						<td>
+							<a href="/movies/item/@item.Id">Edit</a>
+							<a href="/movies/item/@item.Id/delete" data-id="@item.Id" class="delete-link">Delete</a>
+						</td>
+					</tr>
+
+				}
+
+			}
+			else
+			{
+				<tr>
+					<td colspan="4" style="text-align: center; vertical-align: middle;">No movies</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+
+@section Scripts
+{
+	<script type="text/javascript">
+						// Select all elements with class 'delete-link'
+			const deleteLinks = document.getElementsByClassName('delete-link');
+			async function deleteMovie(itemId)
+			{
+				const response = await fetch('/movies/item/' + itemId, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(itemId)
+				});
+				if(!response.ok)
+				{
+					console.error('Error', error);
+					createNotification('Error deleting movie!', 'error');
+				}
+				else
+					location.reload();
+
+			}
+			// Loop through each element and attach a click event listener
+			for (let i = 0; i < deleteLinks.length; i++) {
+			  deleteLinks[i].addEventListener('click', async function(event) {
+				event.preventDefault(); // Prevent default link navigation if needed
+				const itemId = this.getAttribute('data-id'); // or this.dataset.id
+				console.log('Clicked item ID:', itemId);
+				await deleteMovie(itemId);
+				
+				// Call your function here and pass itemId if needed
+				// exampleFunction(itemId);
+			  });
+			}
+
+	</script>
+}

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Infrastructure", "For
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.DataAccess", "Forum.DataAccess\Forum.DataAccess.csproj", "{F46FBC31-58EF-49A3-A6D9-F96CC03D0A8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Presentation.Web", "Forum.Presentation.Web\Forum.Presentation.Web.csproj", "{A1C490CF-90AF-4F32-AF24-92B3892C5D1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F46FBC31-58EF-49A3-A6D9-F96CC03D0A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F46FBC31-58EF-49A3-A6D9-F96CC03D0A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F46FBC31-58EF-49A3-A6D9-F96CC03D0A8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C490CF-90AF-4F32-AF24-92B3892C5D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C490CF-90AF-4F32-AF24-92B3892C5D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C490CF-90AF-4F32-AF24-92B3892C5D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C490CF-90AF-4F32-AF24-92B3892C5D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
