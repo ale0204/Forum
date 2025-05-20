@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
+    <ProjectReference Include="..\Forum.Presentation.Web\Forum.Presentation.Web.csproj" />
   </ItemGroup>
 
 </Project>
