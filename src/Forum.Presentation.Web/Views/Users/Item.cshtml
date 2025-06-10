@@ -1,0 +1,94 @@
+﻿@using Forum.Presentation.Web.Common.Models
+@model UserModel
+
+<form method="post" id="add-user-form">
+	<input type="hidden" asp-for="Id" />
+	<div>
+		<label asp-for="Username">Username</label>
+		<span class="mandatory-field">*</span>
+		<input asp-for="Username" />
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The username of the account</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="Password">Password</label>
+		<span class="mandatory-field">*</span>
+		<input type="password" asp-for="Password"/>
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The password of the account</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="PasswordConfirm">PasswordConfirm</label>
+		<span class="mandatory-field">*</span>
+		<input type="password" asp-for="PasswordConfirm" />
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The confirmation of the password of the account</small>
+	</div>
+	<br />
+
+	<div>
+		<button type="reset">Clear</button>
+		<button type="submit" asp-controller="Users" asp-action="AddUser">Submit</button>
+	</div>
+
+
+</form>
+
+@section Scripts
+{
+	<script type="text/javascript">
+		const form = document.getElementById('add-user-form');
+		async function handleAddUser() {
+			const formData = {
+				Id: form.querySelector('[name="Id"]').value || null,
+				Username: form.querySelector('[name="Username"]').value || null,
+				Password: form.querySelector('[name="Password"]').value || null,
+				PasswordConfirm: form.querySelector('[name="PasswordConfirm"]').value || null
+			};
+			const response = await fetch(form.action, {
+				method: form.method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+			if(!response.ok)
+			{
+				createNotification('Error ' + (formData.Id === null? 'adding' : 'updating') + ' user!', 'error');
+				console.error('Error', error);
+			}
+			else
+			{
+				const responseData = await response.json();
+				if(responseData.success === true)
+					createNotification('User ' + (formData.Id === null? 'added' : 'updated'));
+				else
+				{
+					const nestedData = JSON.parse(responseData.data);
+					createNotification('Error ' + (formData.Id === null? 'adding' : 'updating') + ' user! ' + nestedData.description, 'error');
+
+				}
+
+				console.log('Success', data);
+			}
+		}
+		const handleEnterKey = async function(e) {
+			if(e.key === 'Enter')
+			{
+				e.preventDefault();
+				await handleAddUser();
+			}
+		};
+		const handleSubmit = async function(e) {
+			e.preventDefault();
+			await handleAddUser();
+		};
+		form.addEventListener('keypress', handleEnterKey);
+		form.addEventListener('submit', handleSubmit);
+	</script>
+}

@@ -1,0 +1,80 @@
+﻿@using Forum.Presentation.Web.Common.Models
+@model LoginModel
+
+<form method="post" id="login-form">
+	<input type="hidden" asp-for="Id" />
+	<div>
+		<label asp-for="Username">Username</label>
+		<input asp-for="Username" />
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The username of the account</small>
+	</div>
+	<br />
+	<div>
+		<label asp-for="Password">Password</label>
+		<input type="password" asp-for="Password"/>
+	</div>
+	<div>
+		<small style="padding-left: 10px;">The password of the account</small>
+	</div>
+	<br />
+
+	<div>
+		<button type="submit" asp-controller="Auth" asp-action="AuthenticateUser">Login</button>
+	</div>
+
+
+</form>
+
+@section Scripts
+{
+	<script type="text/javascript">
+		const form = document.getElementById('login-form');
+		async function handleLogin() {
+			const formData = {
+				Id: form.querySelector('[name="Id"]').value || null,
+				Username: form.querySelector('[name="Username"]').value || null,
+				Password: form.querySelector('[name="Password"]').value || null
+			};
+			const response = await fetch(form.action, {
+				method: form.method,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+			if(!response.ok)
+			{
+				createNotification('Invalid username or password', 'error');
+				console.error('Error', error);
+			}
+			else
+			{
+				const responseData = await response.json();
+				if(responseData.success === true)
+					window.location.href = '/';
+				else
+				{
+					createNotification('Invalid username or password', 'error');
+
+				}
+
+				console.log('Success', data);
+			}
+		}
+		const handleEnterKey = async function(e) {
+			if(e.key === 'Enter')
+			{
+				e.preventDefault();
+				await handleLogin();
+			}
+		};
+		const handleSubmit = async function(e) {
+			e.preventDefault();
+			await handleLogin();
+		};
+		form.addEventListener('keypress', handleEnterKey);
+		form.addEventListener('submit', handleSubmit);
+	</script>
+}

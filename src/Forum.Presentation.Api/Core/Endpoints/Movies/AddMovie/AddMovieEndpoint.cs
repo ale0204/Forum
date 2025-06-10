@@ -22,7 +22,7 @@ public class AddMovieEndpoint : Endpoint<AddMovieRequest, IResult>
 
     public override void Configure()
     {
-        AllowAnonymous();
+        AllowAnonymous(); // permite accesul fara autentificare
         Verbs(Http.POST);
         Routes(ApiRoutes.Movies.ADD_MOVIE);
         Version(1);
@@ -32,6 +32,7 @@ public class AddMovieEndpoint : Endpoint<AddMovieRequest, IResult>
     public override async Task<IResult> ExecuteAsync(AddMovieRequest request, CancellationToken ct)
     {
         ErrorOr<MovieResponse> result = await _sender.Send(request.ToCommand(), ct);
+        // foloseste pachetul Mediator pentru a ruta comenzile si interogarile catre handlerii corespunzatori
         return result.Match(success => TypedResults.Ok(success), error => Results.BadRequest(error[0]));
         //if (result.IsError)
         //    return Results.BadRequest(result.FirstError);

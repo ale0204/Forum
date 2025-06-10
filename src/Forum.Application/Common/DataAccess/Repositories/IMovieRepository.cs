@@ -9,6 +9,7 @@ using Forum.Application.Common.DataAccess.Repositories.Common.Base;
 
 namespace Forum.Application.Common.DataAccess.Repositories;
 
+// abstractizeaza accesul la date
 public interface IMovieRepository : IRepository<MovieEntity>, 
                                     IGetByIdRepositoryAction<MovieEntity>,
                                     IInsertRepositoryAction<MovieEntity>,

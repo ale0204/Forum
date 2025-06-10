@@ -7,6 +7,7 @@ using Forum.Application.Common.DataAccess.Repositories;
 using Forum.Application.Common.DataAccess.UoW;
 using Forum.DataAccess.Core.Repositories.Common.Factory;
 using Forum.DataAccess.Core.Repositories.Movies;
+using Forum.DataAccess.Core.Repositories.UsersManagement;
 using Forum.DataAccess.Core.UoW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ public static class DataAccessLayerServices
         services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("MyDataBase")));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IMovieRepository, MovieRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRepositoryFactory, RepositoryFactory>();
     }
 }

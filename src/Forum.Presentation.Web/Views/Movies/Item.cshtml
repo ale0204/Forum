@@ -51,6 +51,7 @@
 	<div>
 		<label asp-for="PosterUrl">Poster Url</label>
 		<input type="url" asp-for="PosterUrl" />
+		<img id="poster-preview" alt="Poster Preview" style="max-width: 200px; display: none;" />
 	</div>
 	<div>
 		<small style="margin-left: 10px;">The poster of the movie</small>
@@ -77,6 +78,44 @@ else
 	<script type="text/javascript">
 		const form = document.getElementById('add-movie-form');
 		const query = form.querySelector('[name="Title"]');
+		const posterURL = form.querySelector('[name="PosterUrl"]');
+		const previewImage = document.getElementById('poster-preview');
+
+		// Utility function to check if URL ends with common image extensions
+		function isValidImageUrl(url) {
+		  return /\.(jpeg|jpg|gif|png|webp|bmp|svg)$/i.test(url);
+		}
+
+		function loadImage()
+		{
+		  const url = posterURL.value.trim();
+
+		  if (url) {
+			// First quick check by extension
+			if (isValidImageUrl(url)) {
+			  // Try to load the image to verify if it's valid
+			  const img = new Image();
+			  img.onload = function() {
+				// Image loaded successfully, show preview
+				previewImage.src = url;
+				previewImage.style.display = 'block';
+			  };
+			  img.onerror = function() {
+				// Failed to load image, hide preview
+				previewImage.style.display = 'none';
+			  };
+			  img.src = url;
+			} else {
+			  // Not a valid image URL by extension, hide preview
+			  previewImage.style.display = 'none';
+			}
+		  } else {
+			// Empty input, hide preview
+			previewImage.style.display = 'none';
+		  }
+		}
+		posterURL.addEventListener('input', loadImage);
+		document.addEventListener('DOMContentLoaded', loadImage);
 		async function handleAddMovie() {
 			const formData = {
 				Id: form.querySelector('[name="Id"]').value || null,
@@ -125,6 +164,7 @@ else
 			e.preventDefault();
 			await handleAddMovie();
 		};
+		
 		form.addEventListener('keypress', handleEnterKey);
 		form.addEventListener('submit', handleSubmit);
 	</script>

@@ -13,6 +13,7 @@ namespace Forum.DataAccess.Core.UoW;
 public class ForumDbContext : DbContext
 {
     public virtual DbSet<MovieEntity> Movies { get; set; }
+    public virtual DbSet<UserEntity> Users { get; set; }
 
     public ForumDbContext(DbContextOptions<ForumDbContext> options) : base(options)
     {
